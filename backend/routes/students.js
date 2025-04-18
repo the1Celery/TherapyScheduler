@@ -1,4 +1,3 @@
-// routes/students.js
 const express = require("express");
 const router = express.Router();
 const { getDbConnection } = require("../db");
@@ -7,16 +6,17 @@ const { getDbConnection } = require("../db");
 router.post("/", async (req, res) => {
   try {
     const db = await getDbConnection();
-    const { name, email } = req.body;
+    const { first_name, last_name, email, password } = req.body;
     const result = await db.run(
-      "INSERT INTO student_account (name, email) VALUES (?, ?)",
-      [name, email]
+      "INSERT INTO student_account (first_name, last_name, email, password) VALUES (?, ?, ?, ?)",
+      [first_name, last_name, email, password]
     );
     await db.close();
 
     res.json({
       student_id: result.lastID,
-      name,
+      first_name,
+      last_name,
       email
     });
   } catch (err) {
@@ -30,7 +30,6 @@ router.get("/", async (req, res) => {
     const db = await getDbConnection();
     const rows = await db.all("SELECT * FROM student_account");
     await db.close();
-
     res.json(rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -58,10 +57,10 @@ router.get("/:id", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     const db = await getDbConnection();
-    const { name, email } = req.body;
+    const { first_name, last_name, email } = req.body;
     await db.run(
-      "UPDATE student_account SET name = ?, email = ? WHERE student_id = ?",
-      [name, email, req.params.id]
+      "UPDATE student_account SET first_name = ?, last_name = ?, email = ? WHERE student_id = ?",
+      [first_name, last_name, email, req.params.id]
     );
     await db.close();
 
@@ -80,7 +79,6 @@ router.delete("/:id", async (req, res) => {
       [req.params.id]
     );
     await db.close();
-
     res.json({ message: "Student deleted successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });

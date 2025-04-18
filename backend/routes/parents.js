@@ -1,14 +1,30 @@
 const express = require("express");
+const { getDbConnection } = require("../db");
 const router = express.Router();
-const db = require("../db");
 
 // Create a parent
 router.post("/", async (req, res) => {
   try {
-    const { name, email, student_id } = req.body;
-    const sql = "INSERT INTO parent_account (name, email, student_id) VALUES (?, ?, ?)";
-    const [result] = await db.query(sql, [name, email, student_id]);
-    res.json({ parent_id: result.insertId, name, email, student_id });
+    const db = await getDbConnection();
+    const { first_name, last_name, email, password } = req.body;
+    const sql = `
+      INSERT INTO parent_account
+        (first_name, last_name, email, password)
+      VALUES (?, ?, ?, ?)
+    `;
+    const result = await db.run(sql, [
+      first_name,
+      last_name,
+      email,
+      password
+    ]);
+    await db.close();
+    res.json({
+      parent_id: result.lastID,
+      first_name,
+      last_name,
+      email
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -17,7 +33,9 @@ router.post("/", async (req, res) => {
 // Grab all parents
 router.get("/", async (req, res) => {
   try {
-    const [rows] = await db.query("SELECT * FROM parent_account");
+    const db = await getDbConnection();
+    const rows = await db.all("SELECT * FROM parent_account");
+    await db.close();
     res.json(rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -27,10 +45,14 @@ router.get("/", async (req, res) => {
 // Grab a single parent
 router.get("/:id", async (req, res) => {
   try {
-    const sql = "SELECT * FROM parent_account WHERE parent_id = ?";
-    const [rows] = await db.query(sql, [req.params.id]);
-    if (rows.length === 0) return res.status(404).json({ error: "Parent not found" });
-    res.json(rows[0]);
+    const db = await getDbConnection();
+    const parent = await db.get(
+      "SELECT * FROM parent_account WHERE parent_id = ?",
+      [req.params.id]
+    );
+    await db.close();
+    if (!parent) return res.status(404).json({ error: "Parent not found" });
+    res.json(parent);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -39,13 +61,15 @@ router.get("/:id", async (req, res) => {
 // Update a parent
 router.put("/:id", async (req, res) => {
   try {
-    const { name, email, student_id } = req.body;
-    const sql = `
-      UPDATE parent_account
-      SET name = ?, email = ?, student_id = ?
-      WHERE parent_id = ?
-    `;
-    await db.query(sql, [name, email, student_id, req.params.id]);
+    const db = await getDbConnection();
+    const { first_name, last_name, email } = req.body;
+    await db.run(
+      `UPDATE parent_account
+         SET first_name = ?, last_name = ?, email = ?
+       WHERE parent_id = ?`,
+      [first_name, last_name, email, req.params.id]
+    );
+    await db.close();
     res.json({ message: "Parent updated successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -55,8 +79,11 @@ router.put("/:id", async (req, res) => {
 // Delete a parent
 router.delete("/:id", async (req, res) => {
   try {
-    const sql = "DELETE FROM parent_account WHERE parent_id = ?";
-    await db.query(sql, [req.params.id]);
+    const db = await getDbConnection();
+    await db.run("DELETE FROM parent_account WHERE parent_id = ?", [
+      req.params.id
+    ]);
+    await db.close();
     res.json({ message: "Parent deleted successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });

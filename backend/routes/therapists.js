@@ -1,17 +1,34 @@
 const express = require("express");
+const { getDbConnection } = require("../db");
 const router = express.Router();
-const db = require("../db");
 
 // Create a therapist
 router.post("/", async (req, res) => {
   try {
-    const { name, email, admin_id, approval_date } = req.body;
+    const db = await getDbConnection();
+    const { first_name, last_name, email, password, admin_id, approval_date } = req.body;
     const sql = `
-      INSERT INTO therapist_account (name, email, admin_id, approval_date)
-      VALUES (?, ?, ?, ?)
+      INSERT INTO therapist_account
+        (first_name, last_name, email, password, admin_id, approval_date)
+      VALUES (?, ?, ?, ?, ?, ?)
     `;
-    const [result] = await db.query(sql, [name, email, admin_id, approval_date]);
-    res.json({ therapist_id: result.insertId, name, email, admin_id, approval_date });
+    const result = await db.run(sql, [
+      first_name,
+      last_name,
+      email,
+      password,
+      admin_id,
+      approval_date
+    ]);
+    await db.close();
+    res.json({
+      therapist_id: result.lastID,
+      first_name,
+      last_name,
+      email,
+      admin_id,
+      approval_date
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -20,7 +37,9 @@ router.post("/", async (req, res) => {
 // Grab ALL therapists
 router.get("/", async (req, res) => {
   try {
-    const [rows] = await db.query("SELECT * FROM therapist_account");
+    const db = await getDbConnection();
+    const rows = await db.all("SELECT * FROM therapist_account");
+    await db.close();
     res.json(rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -30,25 +49,31 @@ router.get("/", async (req, res) => {
 // Grab a single therapist
 router.get("/:id", async (req, res) => {
   try {
-    const sql = "SELECT * FROM therapist_account WHERE therapist_id = ?";
-    const [rows] = await db.query(sql, [req.params.id]);
-    if (rows.length === 0) return res.status(404).json({ error: "Therapist not found" });
-    res.json(rows[0]);
+    const db = await getDbConnection();
+    const therapist = await db.get(
+      "SELECT * FROM therapist_account WHERE therapist_id = ?",
+      [req.params.id]
+    );
+    await db.close();
+    if (!therapist) return res.status(404).json({ error: "Therapist not found" });
+    res.json(therapist);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// Upadate a therapist
+// Update a therapist
 router.put("/:id", async (req, res) => {
   try {
-    const { name, email, admin_id, approval_date } = req.body;
-    const sql = `
-      UPDATE therapist_account
-      SET name = ?, email = ?, admin_id = ?, approval_date = ?
-      WHERE therapist_id = ?
-    `;
-    await db.query(sql, [name, email, admin_id, approval_date, req.params.id]);
+    const db = await getDbConnection();
+    const { first_name, last_name, email, admin_id, approval_date } = req.body;
+    await db.run(
+      `UPDATE therapist_account
+         SET first_name = ?, last_name = ?, email = ?, admin_id = ?, approval_date = ?
+       WHERE therapist_id = ?`,
+      [first_name, last_name, email, admin_id, approval_date, req.params.id]
+    );
+    await db.close();
     res.json({ message: "Therapist updated successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -58,8 +83,11 @@ router.put("/:id", async (req, res) => {
 // Delete a therapist
 router.delete("/:id", async (req, res) => {
   try {
-    const sql = "DELETE FROM therapist_account WHERE therapist_id = ?";
-    await db.query(sql, [req.params.id]);
+    const db = await getDbConnection();
+    await db.run("DELETE FROM therapist_account WHERE therapist_id = ?", [
+      req.params.id
+    ]);
+    await db.close();
     res.json({ message: "Therapist deleted successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });

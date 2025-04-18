@@ -1,7 +1,7 @@
 // src/pages/StudentsPage.js
 import React, { useState, useEffect } from 'react';
 import { getStudents, createStudent, updateStudent, deleteStudent } from '../services/studentService';
-import './StudentsPage.css';
+import '../styles/StudentsPage.css';
 
 const StudentsPage = () => {
   const [students, setStudents] = useState([]);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './HomePage.css';
+import '../styles/HomePage.css';
 
 const HomePage = () => {
   return (
@@ -8,8 +8,8 @@ const HomePage = () => {
       <div className="hero-section">
         <h1>Welcome to Therapy Scheduler</h1>
         <p>Streamline your therapy appointments with our easy-to-use scheduling system</p>
-        <Link to="/students" className="cta-button">
-          Manage Students
+        <Link to="/register" className="cta-button">
+          Get Started
         </Link>
       </div>
 
