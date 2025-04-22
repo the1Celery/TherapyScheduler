@@ -1,4 +1,4 @@
-# cmsc447-s25-project-team1 - Therapy Appointment Scheduler for Students with Mental Health Disorders
+# Therapy Appointment Scheduler for Students with Mental Health Disorders
 
 How to run backend:
 1. cd to backend directory
@@ -8,9 +8,7 @@ How to run backend:
 How to run frontend: 
 1. cd to frontend directory
 2. npm install (one time)
-3. npm install react-scripts (one time)
-4. npm install react-router-dom react-dom (one time)
-5. npm start
+3. npm start
 
 Breakdown of code and structure of project:
 1. App.js in the frontend is the main entry point of the website, it uses react-router-dom to define routes, i.e 
@@ -24,4 +22,10 @@ user: ![navbar](readme_images/nav.png)
     * pages/HomePage.js - Displays default content regardless of login status
     * pages/StudentPage, pages/ParentPage, pages/TherapistPage - Upon successful login, redirect to role-specific 
     dashboards for student, parent, and therapist
+4. After a successful login in LoginPage.js, set login status in the variable isLoggedIn to true in localStorage: localStorage.setItem("isLoggedIn", "true"); 
+In app.js, retrieve the stored isLoggedIn value, and check if true; if true then update navbar's display to reflect
+login status by havign a logout button. Navbar can track login status because it is passed the react state in App.js:
+    * <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+Navbar's new logout button appears when isLoggedIn == true, and once clicked, handleLogout is triggered which sets
+the react state isLoggedIn to false, and redirects the user to the login page. 
 
