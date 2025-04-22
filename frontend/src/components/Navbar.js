@@ -1,4 +1,5 @@
 import React from 'react';
+<<<<<<< HEAD
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 
@@ -12,6 +13,12 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
     navigate("/login");
   };
 
+=======
+import { Link } from 'react-router-dom';
+import './Navbar.css';
+
+const Navbar = () => {
+>>>>>>> 1b2ae34fee5b08afc2e7cb18623febc52564f91a
   return (
     <nav className="navbar">
       <div className="navbar-container">
@@ -22,6 +29,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
           <li className="nav-item">
             <Link to="/" className="nav-link">Home</Link>
           </li>
+<<<<<<< HEAD
           {!isLoggedIn ? (
             <li className="nav-item">
               <Link to="/login" className="nav-link">Login</Link>
@@ -33,11 +41,19 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
               </button>
             </li>
           )}
+=======
+          <li className="nav-item">
+            <Link to="/login" className="nav-link">Login</Link>
+          </li>
+>>>>>>> 1b2ae34fee5b08afc2e7cb18623febc52564f91a
         </ul>
       </div>
     </nav>
   );
 };
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1b2ae34fee5b08afc2e7cb18623febc52564f91a
 export default Navbar;

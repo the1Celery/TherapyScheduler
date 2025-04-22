@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import '../styles/AuthPage.css';
 
+<<<<<<< HEAD
 export default function LoginPage({ setIsLoggedIn }) {
+=======
+export default function LoginPage() {
+>>>>>>> 1b2ae34fee5b08afc2e7cb18623febc52564f91a
   const navigate = useNavigate();
   const [form, setForm] = useState({
     role: 'student',
@@ -22,6 +26,7 @@ export default function LoginPage({ setIsLoggedIn }) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form)
     });
+<<<<<<< HEAD
     //If successful login
     if (res.ok) {
       const data = await res.json();
@@ -30,6 +35,10 @@ export default function LoginPage({ setIsLoggedIn }) {
       localStorage.setItem("isLoggedIn", "true");
       setIsLoggedIn(true);
 
+=======
+    if (res.ok) {
+      const data = await res.json();
+>>>>>>> 1b2ae34fee5b08afc2e7cb18623febc52564f91a
       // Redirect to the user's dashboard based on role
       navigate(`/${data.role}`);
     } else {

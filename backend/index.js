@@ -25,6 +25,9 @@ app.use("/api/auth", authRoutes);
     await db.run(`DROP TABLE IF EXISTS student_account`);
     await db.run(`DROP TABLE IF EXISTS parent_account`);
     await db.run(`DROP TABLE IF EXISTS therapist_account`);
+    await db.run(`DROP TABLE IF EXISTS appointments`);
+    await db.run(`DROP TABLE IF EXISTS admin_account`);
+    await db.run(`DROP TABLE IF EXISTS availability`);
 
     // Recreate student_account
     await db.run(`
@@ -63,7 +66,44 @@ app.use("/api/auth", authRoutes);
         FOREIGN KEY(admin_id) REFERENCES admin_account(admin_id)
       )
     `);
-
+      // Recreate appointments table
+    await db.run(`
+      CREATE TABLE appointments (
+        appointment_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        family_id      INTEGER,
+        student_id     INTEGER NOT NULL,
+        therapist_id   INTEGER NOT NULL,
+        start_time     TEXT NOT NULL,
+        end_time       TEXT NOT NULL,
+        date           TEXT NOT NULL,
+        status         TEXT NOT NULL,
+        type           TEXT NOT NULL,
+        FOREIGN KEY(family_id)    REFERENCES parent_account(parent_id),
+        FOREIGN KEY(student_id)   REFERENCES student_account(student_id),
+        FOREIGN KEY(therapist_id) REFERENCES therapist_account(therapist_id)
+      )
+    `);
+    // Recreate admin_account
+    await db.run(`
+      CREATE TABLE admin_account (
+        admin_id   INTEGER PRIMARY KEY AUTOINCREMENT,
+        email     TEXT UNIQUE NOT NULL,
+        password  TEXT NOT NULL,
+        name      TEXT NOT NULL,
+        role      TEXT NOT NULL
+      )
+    `);
+    // Recreate availability table
+    await db.run(`
+      CREATE TABLE availability (
+        therapist_id INTEGER NOT NULL,
+        date         TEXT NOT NULL,
+        start_time   TEXT NOT NULL,
+        end_time     TEXT NOT NULL,
+        PRIMARY KEY (therapist_id, date, start_time),
+        FOREIGN KEY (therapist_id) REFERENCES therapist_account(therapist_id)
+      )
+    `);    
     await db.close();
     console.log("✅ Dev migration: tables dropped & recreated.");
   } catch (err) {
