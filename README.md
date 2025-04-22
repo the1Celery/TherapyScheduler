@@ -17,8 +17,8 @@ Breakdown of code and structure of project:
 /register for RegisterPage, /home for HomePage. These pages are located in /src/pages and are imported into App.js
 like so: import LoginPage from './pages/LoginPage'; 
 2. App.js imports navbar from /src/components which is the static navigation bar that the website always displays to the
-user: ![navbar](image.png)
-3. Route and page details: 
+user: ![navbar](readme_images\nav.png)
+3. Route and page details:  
     * pages/LoginPage.js - Login page with inputs {email, password}, redirects to /home on success
     * pages/RegisterPage.js - Register page with inputs {Name, email, password, role}
     * pages/HomePage.js - Displays default content regardless of login status
