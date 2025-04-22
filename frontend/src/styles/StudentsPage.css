@@ -1,0 +1,186 @@
+.students-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.page-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.page-header p {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.student-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 30px;
+}
+
+@media (max-width: 768px) {
+  .student-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.student-form-container {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+.student-form h2 {
+  margin-bottom: 20px;
+  color: #6a11cb;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn-primary {
+  background-color: #6a11cb;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  flex: 1;
+}
+
+.btn-secondary {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ddd;
+  padding: 12px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  flex: 1;
+}
+
+.student-list-container {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+.student-list-header {
+  margin-bottom: 20px;
+}
+
+.student-list-header h2 {
+  color: #6a11cb;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.no-students {
+  text-align: center;
+  padding: 40px 0;
+  color: #666;
+}
+
+.student-list {
+  display: grid;
+  gap: 15px;
+}
+
+.student-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  border-left: 4px solid #6a11cb;
+}
+
+.student-info h3 {
+  margin: 0 0 5px 0;
+  color: #333;
+}
+
+.student-info p {
+  margin: 0;
+  color: #666;
+}
+
+.student-id {
+  font-size: 0.8rem;
+  color: #999 !important;
+  margin-top: 5px !important;
+}
+
+.student-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-edit, .btn-delete {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-edit {
+  background-color: #2575fc;
+  color: white;
+}
+
+.btn-delete {
+  background-color: #ff4757;
+  color: white;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.error {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2rem;
+  color: #ff4757;
+  background-color: #ffe8e8;
+  border-radius: 5px;
+}

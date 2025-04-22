@@ -1,0 +1,20 @@
+{
+    "name": "therapy-backend",
+    "version": "1.0.0",
+    "description": "Backend for the therapy appointment system",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^16.5.0",
+        "express": "^4.21.2",
+        "mysql2": "^3.2.0",
+        "sqlite": "^5.1.1",
+        "sqlite3": "^5.1.7"
+    }
+}
