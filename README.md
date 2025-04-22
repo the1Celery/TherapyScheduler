@@ -25,7 +25,11 @@ user: ![navbar](readme_images/nav.png)
 4. After a successful login in LoginPage.js, set login status in the variable isLoggedIn to true in localStorage: localStorage.setItem("isLoggedIn", "true"); 
 In app.js, retrieve the stored isLoggedIn value, and check if true; if true then update navbar's display to reflect
 login status by havign a logout button. Navbar can track login status because it is passed the react state in App.js:
-    * <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+    * Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
 Navbar's new logout button appears when isLoggedIn == true, and once clicked, handleLogout is triggered which sets
 the react state isLoggedIn to false, and redirects the user to the login page. 
+![logout](readme_images/logout.png)
+5. The calendar functionality is implemented from the react-big-calendar library. When a therapist successfully logs in, they are sent to
+their therapist page that features an interactable calendar UI. Clicking on a day on the calendar sets an appointment for that day in the form
+of a bubble. Clicking on a bubble on a given day prompts the user to delete the appointment. 
 
