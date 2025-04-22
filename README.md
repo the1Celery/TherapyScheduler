@@ -24,4 +24,10 @@ user: ![navbar](readme_images/nav.png)
     * pages/HomePage.js - Displays default content regardless of login status
     * pages/StudentPage, pages/ParentPage, pages/TherapistPage - Upon successful login, redirect to role-specific 
     dashboards for student, parent, and therapist
+4. After a successful login in LoginPage.js, set login status in the variable isLoggedIn to true in localStorage: localStorage.setItem("isLoggedIn", "true"); 
+In app.js, retrieve the stored isLoggedIn value, and check if true; if true then update navbar's display to reflect
+login status by havign a logout button. Navbar can track login status because it is passed the react state in App.js:
+    * <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+Navbar's new logout button appears when isLoggedIn == true, and once clicked, handleLogout is triggered which sets
+the react state isLoggedIn to false, and redirects the user to the login page. 
 
