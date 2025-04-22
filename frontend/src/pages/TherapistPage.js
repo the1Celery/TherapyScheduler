@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-import React from 'react';
-import { Link } from 'react-router-dom';
-
-export default function TherapistPage() {
-  return (
-    <div style={{ maxWidth: 600, margin: '40px auto', textAlign: 'center' }}>
-      <h2>Therapist Dashboard</h2>
-      <p>Welcome to your therapist page.</p>
-=======
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, Views } from 'react-big-calendar';
@@ -130,14 +120,9 @@ export default function TherapistPage() {
         }}
       />
 
->>>>>>> 1b2ae34fee5b08afc2e7cb18623febc52564f91a
       <Link to="/">
         <button style={{ marginTop: 20 }}>Home</button>
       </Link>
     </div>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 1b2ae34fee5b08afc2e7cb18623febc52564f91a
